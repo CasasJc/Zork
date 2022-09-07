@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Zork
 {
@@ -7,10 +8,11 @@ namespace Zork
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Zork!");
+
             Commands command = Commands.UNKNOWN;
             while (command != Commands.QUIT)
             {
-                Console.Write("> ");
+                Console.Write($"{_rooms[_currentRoom]}\n>");
                 command = ToCommand(Console.ReadLine().Trim());
                 string outputString;
                 switch (command)
@@ -21,18 +23,21 @@ namespace Zork
                     case Commands.LOOK:
                         outputString = "This is an open field west of a white house, whith a boarded front door.\nA rubber mat saying 'Welcome to Zork!' Lies by the door.";
                         break;
+
                     case Commands.NORTH:
-                        outputString = "You moved North!";
-                        break;
                     case Commands.SOUTH:
-                        outputString = "You moved South!";
-                        break;
                     case Commands.EAST:
-                        outputString = "You moved East!";
-                        break;
                     case Commands.WEST:
-                        outputString = "You moved West!";
+                        if (Move(command))
+                        {
+                            outputString = $"You moved {command}.";
+                        }
+                        else
+                        {
+                            outputString = "The way is shut!";
+                        }
                         break;
+
                     default:
                         outputString = "Unkown command";
                         break;
@@ -44,5 +49,31 @@ namespace Zork
         {
             return Enum.TryParse(commandString, true, out Commands result) ? result : Commands.UNKNOWN;
         }
+
+        private static bool Move(Commands command)
+        {
+            bool didMove = false;
+            switch (command)
+            {
+                case Commands.NORTH:
+                case Commands.SOUTH:
+                    break;
+
+                case Commands.EAST when _currentRoom < _rooms.Length - 1: 
+                    _currentRoom++;
+                    didMove = true;
+                    break;
+
+                case Commands.WEST when _currentRoom > 0:
+                    _currentRoom--;
+                    didMove = true;
+                    break;
+            }
+
+            return didMove;
+        }
+
+        private static readonly string[] _rooms = { "Forest", "West of House", "Behind House", "Clearing", "Canyonn View" };
+        private static int _currentRoom = 1;
     }
 }
