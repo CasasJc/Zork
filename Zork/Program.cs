@@ -5,6 +5,14 @@ namespace Zork
 {
     class Program
     {
+
+        private static string CurrentRoom
+        {
+            get
+            {
+                return _rooms[Location.Row, Location.Column];
+            }
+        }
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Zork!");
@@ -12,7 +20,7 @@ namespace Zork
             Commands command = Commands.UNKNOWN;
             while (command != Commands.QUIT)
             {
-                Console.Write($"{_rooms[_currentRoom]}\n>");
+                Console.WriteLine(CurrentRoom);
                 command = ToCommand(Console.ReadLine().Trim());
                 string outputString;
                 switch (command)
@@ -21,7 +29,7 @@ namespace Zork
                         outputString = "Thank you for playing!";
                         break;
                     case Commands.LOOK:
-                        outputString = "This is an open field west of a white house, whith a boarded front door.\nA rubber mat saying 'Welcome to Zork!' Lies by the door.";
+                        outputString = "A rubber mat saying 'Welcome to Zork!' Lies by the door.";
                         break;
 
                     case Commands.NORTH:
@@ -55,17 +63,23 @@ namespace Zork
             bool didMove = false;
             switch (command)
             {
-                case Commands.NORTH:
-                case Commands.SOUTH:
-                    break;
-
-                case Commands.EAST when _currentRoom < _rooms.Length - 1: 
-                    _currentRoom++;
+                case Commands.NORTH when Location.Row < _rooms.GetLength(0) - 1:
+                    Location.Row++;
                     didMove = true;
                     break;
 
-                case Commands.WEST when _currentRoom > 0:
-                    _currentRoom--;
+                case Commands.SOUTH when Location.Row > 0:
+                    Location.Row--;
+                    didMove = true;
+                    break;
+
+                case Commands.EAST when Location.Column < _rooms.GetLength(1) - 1:
+                    Location.Column++;
+                    didMove = true;
+                    break;
+
+                case Commands.WEST when Location.Column > 0:
+                    Location.Column--;
                     didMove = true;
                     break;
             }
@@ -73,7 +87,15 @@ namespace Zork
             return didMove;
         }
 
-        private static readonly string[] _rooms = { "Forest", "West of House", "Behind House", "Clearing", "Canyonn View" };
-        private static int _currentRoom = 1;
+        private static readonly string[,] _rooms =
+        {
+            {"Rocky Trail", "South of House", "Canyon View"},
+            { "Forest", "West of House", "Behind House", },
+            {"Dense Woods", "North of House", "Clearing"}
+        };
+
+
+
+        private static (int Row, int Column) Location = (1, 1);
     }
 }
