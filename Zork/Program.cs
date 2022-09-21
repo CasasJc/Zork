@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 
 namespace Zork
@@ -27,7 +26,6 @@ namespace Zork
                     Console.WriteLine(CurrentRoom.Description);
                     previousRoom = CurrentRoom;
                 }
-
                 command = ToCommand(Console.ReadLine().Trim());
                 string outputString;
                 switch (command)
@@ -38,7 +36,6 @@ namespace Zork
                     case Commands.LOOK:
                         outputString = CurrentRoom.Description;
                         break;
-
                     case Commands.NORTH:
                     case Commands.SOUTH:
                     case Commands.EAST:
@@ -90,19 +87,16 @@ namespace Zork
                     didMove = true;
                     break;
             }
-
             return didMove;
         }
+        private static (int Row, int Column) Location = (1, 1);
 
         private static readonly Room[,] _rooms =
         {
-            {new Room("Rocky Trail"),new Room( "South of House"), new Room("Canyon View")},
-            { new Room("Forest"),new Room( "West of House"), new Room("Behind House") },
+            {new Room("Rocky Trail"),new Room("South of House"), new Room("Canyon View")},
+            {new Room("Forest"),new Room("West of House"), new Room("Behind House")},
             {new Room("Dense Woods"), new Room("North of House"), new Room("Clearing")}
         };
-
-        private static (int Row, int Column) Location = (1, 1);
-
         private static void InitializeRoomDescriptions()
         {
             Dictionary<string, Room> roomMap = new Dictionary<string, Room>();
@@ -110,7 +104,6 @@ namespace Zork
             {
                 roomMap.Add(room.Name, room);
             }
-
             roomMap["Rocky Trail"].Description = "You are on a rick-strewn trail.";
             roomMap["South of House"].Description = "You are faceing the south side of a white house. There is no door here, and all the windows are barred.";
             roomMap["Canyon View"].Description = "You are at the top of the Great Canyon on its south wall.";
