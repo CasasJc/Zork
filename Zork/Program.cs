@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Zork
 {
@@ -13,9 +14,13 @@ namespace Zork
             }
         }
         static void Main(string[] args)
-        {
-            InitializeRoomDescriptions();
+        {         
+            string roomsFilename = "Rooms.txt";
+            InitializeRoomDescriptions(roomsFilename);
+
             Console.WriteLine("Welcome to Zork!");
+
+            //bool isRunning = true;
             Room previousRoom = null;
             Commands command = Commands.UNKNOWN;
             while (command != Commands.QUIT)
@@ -51,7 +56,7 @@ namespace Zork
                         break;
 
                     default:
-                        outputString = "Unkown command";
+                        outputString = "Unkown";
                         break;
                 }
                 Console.WriteLine(outputString);
@@ -61,7 +66,6 @@ namespace Zork
         {
             return Enum.TryParse(commandString, true, out Commands result) ? result : Commands.UNKNOWN;
         }
-
         private static bool Move(Commands command)
         {
             bool didMove = false;
@@ -90,31 +94,46 @@ namespace Zork
             return didMove;
         }
         private static (int Row, int Column) Location = (1, 1);
-
         private static readonly Room[,] _rooms =
         {
             {new Room("Rocky Trail"),new Room("South of House"), new Room("Canyon View")},
             {new Room("Forest"),new Room("West of House"), new Room("Behind House")},
             {new Room("Dense Woods"), new Room("North of House"), new Room("Clearing")}
         };
-        private static void InitializeRoomDescriptions()
+        private static void InitializeRoomDescriptions(string roomsFilename)
         {
-            Dictionary<string, Room> roomMap = new Dictionary<string, Room>();
+            const string fieldDelimiter = "##";
+            const int expectedFieldCount = 2;
+            string[] lines = File.ReadAllLines(roomsFilename);
+            foreach (string line in lines)
+            {
+                string[] fields = line.Split(fieldDelimiter);
+                if (fields.Length != expectedFieldCount)
+                {
+                    throw new InvalidCastException("Invalid record.");
+                }
+                string name = fields[(int)Fields.Name];
+                string description = fields[(int)Fields.Description];
+                roomMap[name].Description = description;
+            }
+        }
+        private static readonly Dictionary<string, Room> roomMap;
+        static Program()
+        {
+            roomMap = new Dictionary<string, Room>();
             foreach (Room room in _rooms)
             {
-                roomMap.Add(room.Name, room);
+                roomMap[room.Name] = room;
             }
-            roomMap["Rocky Trail"].Description = "You are on a rick-strewn trail.";
-            roomMap["South of House"].Description = "You are faceing the south side of a white house. There is no door here, and all the windows are barred.";
-            roomMap["Canyon View"].Description = "You are at the top of the Great Canyon on its south wall.";
-
-            roomMap["Forest"].Description = "This is a forest, with trees in all directions around you.";
-            roomMap["West of House"].Description = "This is an open field west of a white house, with a boarded front door.";
-            roomMap["Behind House"].Description = "You are behind the white house. In one corner of the house there is a small window which is slightly ajar.";
-
-            roomMap["Dense Woods"].Description = "This is a dimly lit forest, with large trees all around. To the east, there aooears to be sunlight.";
-            roomMap["North of House"].Description = "You are facing the north side of a white house. There is no door here, and all the widows are barred.";
-            roomMap["Clearing"].Description = "You are in a clearing, with a forest surrounding you on the west and south.";
+        }
+        private enum Fields
+        {
+            Name = 0,
+            Description
+        }
+        private enum CommandLineArguments
+        {
+            defaultRoomsFilename = 0
         }
     }
 }
