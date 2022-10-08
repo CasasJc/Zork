@@ -14,13 +14,11 @@ namespace Zork
             }
         }
         static void Main(string[] args)
-        {         
-            string roomsFilename = "Rooms.txt";
+        {
+            const string defaultRoomsFilename = "Content\\Rooms.txt";
+            string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguments.RoomsFilename] : defaultRoomsFilename);
             InitializeRoomDescriptions(roomsFilename);
-
             Console.WriteLine("Welcome to Zork!");
-
-            //bool isRunning = true;
             Room previousRoom = null;
             Commands command = Commands.UNKNOWN;
             while (command != Commands.QUIT)
@@ -102,20 +100,20 @@ namespace Zork
         };
         private static void InitializeRoomDescriptions(string roomsFilename)
         {
-            const string fieldDelimiter = "##";
-            const int expectedFieldCount = 2;
-            string[] lines = File.ReadAllLines(roomsFilename);
-            foreach (string line in lines)
-            {
-                string[] fields = line.Split(fieldDelimiter);
-                if (fields.Length != expectedFieldCount)
-                {
-                    throw new InvalidCastException("Invalid record.");
-                }
-                string name = fields[(int)Fields.Name];
-                string description = fields[(int)Fields.Description];
-                roomMap[name].Description = description;
-            }
+          const string fieldDelimiter = "##";
+          const int expectedFieldCount = 2;
+          string[] lines = File.ReadAllLines(roomsFilename);
+          foreach (string line in lines)
+          {
+              string[] fields = line.Split(fieldDelimiter);
+              if (fields.Length != expectedFieldCount)
+              {
+                  throw new InvalidCastException("Invalid record.");
+              }
+              string name = fields[(int)Fields.Name];
+              string description = fields[(int)Fields.Description];
+              roomMap[name].Description = description;
+          }
         }
         private static readonly Dictionary<string, Room> roomMap;
         static Program()
@@ -133,7 +131,7 @@ namespace Zork
         }
         private enum CommandLineArguments
         {
-            defaultRoomsFilename = 0
+            RoomsFilename = 0
         }
     }
 }
