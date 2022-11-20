@@ -11,10 +11,7 @@ namespace Zork.Common
             set => _currentRoom = value;
         }
 
-       
-
-
-        public List<Item> Inventory { get; }
+        public IEnumerable<Item> Inventory => _inventory;
 
         public Player(World world, string startingLocation)
         {
@@ -25,7 +22,7 @@ namespace Zork.Common
                 throw new Exception($"Invalid starting location: {startingLocation}");
             }
 
-            Inventory = new List<Item>();
+            _inventory = new List<Item>();
         }
 
         public bool Move(Directions direction)
@@ -39,36 +36,26 @@ namespace Zork.Common
             return didMove;
         }
 
-
-
-        public bool TakeItem(string NameOfItem)
+        public void AddItemToInventory(Item itemToAdd)
         {
-            Item TakeableItem = _world.ItemsByName.GetValueOrDefault(NameOfItem);
-            if (CurrentRoom.Inventory.Contains(TakeableItem))
+            if (_inventory.Contains(itemToAdd))
             {
-                Inventory.Add(TakeableItem);
-                CurrentRoom.Inventory.Remove(TakeableItem);
-                return true;
+                throw new Exception($"Item {itemToAdd} already exists in inventory.");
             }
-            else
-            return false;         
+
+            _inventory.Add(itemToAdd);
         }
 
-        public bool DropItem(string NameOfItem)
+        public void RemoveItemFromInventory(Item itemToRemove)
         {
-            Item TakeableItem = _world.ItemsByName.GetValueOrDefault(NameOfItem);
-
-            if (Inventory.Contains(TakeableItem))
+            if (_inventory.Remove(itemToRemove) == false)
             {
-                Inventory.Remove(TakeableItem);
-                CurrentRoom.Inventory.Add(TakeableItem);
-                return true;
+                throw new Exception("Could not remove item from inventory.");
             }
-            else           
-            return false;        
         }
 
-        private World _world;
+        private readonly World _world;
         private Room _currentRoom;
+        private readonly List<Item> _inventory;
     }
 }
