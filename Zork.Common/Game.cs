@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Zork.Common
 {
@@ -129,7 +129,7 @@ namespace Zork.Common
 
             Output.WriteLine($"\n{Player.CurrentRoom}");
         }
-        
+
         private void Look()
         {
             Output.WriteLine(Player.CurrentRoom.Description);
@@ -144,7 +144,7 @@ namespace Zork.Common
             Item itemToTake = Player.CurrentRoom.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
             if (itemToTake == null)
             {
-                Console.WriteLine("You can't see any such thing.");                
+                Console.WriteLine("You can't see any such thing.");
             }
             else
             {
@@ -159,7 +159,7 @@ namespace Zork.Common
             Item itemToDrop = Player.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
             if (itemToDrop == null)
             {
-                Console.WriteLine("You can't see any such thing.");                
+                Console.WriteLine("You can't see any such thing.");
             }
             else
             {

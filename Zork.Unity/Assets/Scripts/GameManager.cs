@@ -26,7 +26,14 @@ public class GameManager : MonoBehaviour
     {
         TextAsset gameJson = Resources.Load<TextAsset>("GameJson");
         _game = JsonConvert.DeserializeObject<Game>(gameJson.text);
+        _game.Player.LocationChanged += Player_LocationChanged;
         _game.Run(InputService, OutputService);
+        LocationText.text = _game.Player.CurrentRoom.Name;
+    }
+
+    private void Player_LocationChanged(object sender, Room location)
+    {
+        LocationText.text = location.Name;
     }
 
     private void Start()
@@ -39,7 +46,8 @@ public class GameManager : MonoBehaviour
        if (Input.GetKeyDown(KeyCode.Return))
        {
             InputService.ProcessInput();
-       }
+            InputService.SetFocus();
+        }
 
        if(_game.IsRunning == false)
         {
