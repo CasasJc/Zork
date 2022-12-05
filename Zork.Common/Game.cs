@@ -35,6 +35,9 @@ namespace Zork.Common
             Output.WriteLine("Welcome to Zork!");
             Look();
             Output.WriteLine($"{Player.CurrentRoom}");
+            Player.PlayerHealth = 10;
+            Player.PlayerHunger = 10;
+            Output.WriteLine($"Current health is {Player.PlayerHealth} & Current Hunger is {Player.PlayerHunger}");
         }
 
         public void OnInputReceived(object sender, string inputString)
@@ -76,7 +79,8 @@ namespace Zork.Common
                 case Commands.East:
                 case Commands.West:
                     Directions direction = (Directions)command;
-                    Output.WriteLine(Player.Move(direction) ? $"You moved {direction}." : "The way is shut!");                 
+                    Output.WriteLine(Player.Move(direction) ? $"You moved {direction}." : "The way is shut!");
+                    Player.PlayerHunger -= 1;
                     break;
 
                 case Commands.Take:
@@ -124,9 +128,22 @@ namespace Zork.Common
                     Output.WriteLine($"Your score would be {Player.PlayerScore}, in {Player.MovesNumb} move(s)");
                     break;
 
+                case Commands.Health:
+                    Output.WriteLine($"Current health is {Player.PlayerHealth}");
+                    break;
+
+                case Commands.Hunger:
+                    Output.WriteLine($"Current Hunger is {Player.PlayerHunger}");
+                    break;
+
+                case Commands.Stats:
+                    Output.WriteLine($"Current health is {Player.PlayerHealth} & Current Hunger is {Player.PlayerHunger}");
+                    break;
+
                 default:
                     Output.WriteLine("Unknown command.");
                     break;
+
             }
             if (command != Commands.Unknown)
             {

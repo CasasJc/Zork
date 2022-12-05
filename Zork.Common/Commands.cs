@@ -22,6 +22,10 @@
         I = Inventory,
         Score,
         Reward,
+        Health,
+        takeH,
+        Hunger,
+        Stats,
         Unknown
     }
 }
