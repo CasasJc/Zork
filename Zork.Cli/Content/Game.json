@@ -16,6 +16,18 @@
         "Name": "Leaves",
         "LookDescription": "There is a pile of leaves here.",
         "InventoryDescription": "A pile of leaves."
+      },
+      {
+        "Name": "Nail",
+        "LookDescription": "There is a Nail on the floor.",
+        "InventoryDescription": "A matel nail."
+      }
+    ],
+    "EdibleItems": [
+      {
+        "Name": "Nail",
+        "LookDescription": "There is a Nail on the floor.",
+        "InventoryDescription": "A matel nail."
       }
     ],
     "Rooms": [
@@ -29,7 +41,8 @@
         },
         "InventoryNames": [
           "Mat",
-          "Mailbox"
+          "Mailbox",
+          "Nail"
         ]
       },
       {

@@ -36,8 +36,10 @@ namespace Zork.Common
             Look();
             Output.WriteLine($"{Player.CurrentRoom}");
             Player.PlayerHealth = 10;
-            Player.PlayerHunger = 10;
+            Player.PlayerHunger = 0;
             Output.WriteLine($"Current health is {Player.PlayerHealth} & Current Hunger is {Player.PlayerHunger}");
+
+           
         }
 
         public void OnInputReceived(object sender, string inputString)
@@ -80,8 +82,20 @@ namespace Zork.Common
                 case Commands.West:
                     Directions direction = (Directions)command;
                     Output.WriteLine(Player.Move(direction) ? $"You moved {direction}." : "The way is shut!");
-                    Player.PlayerHunger -= 1;
-                    break;
+                    Player.PlayerHunger += 1;
+
+                    if (Player.PlayerHunger >= 15)
+                    {
+                        IsRunning = false;
+                        Output.WriteLine("You Starved to death! Thank you for playing!");
+                    }
+
+                    if (Player.PlayerHunger == 5)
+                    {
+                        Output.WriteLine($"You have {Player.PlayerHunger} hunger, better find something to eat");
+                    }
+
+                        break;
 
                 case Commands.Take:
                     if (string.IsNullOrEmpty(subject))

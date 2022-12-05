@@ -89,14 +89,14 @@ namespace Zork.Common
 
             _inventory = new List<Item>();
         }
-
+        
         public bool Move(Directions direction)
         {
             bool didMove = _currentRoom.Neighbors.TryGetValue(direction, out Room neighbor);
             if (didMove)
             {
                 CurrentRoom = neighbor;
-                //MoveGain();
+                
             }
 
             return didMove;
