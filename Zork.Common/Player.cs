@@ -120,6 +120,14 @@ namespace Zork.Common
             }
         }
 
+       //public void EatItemFromInventory(Item ItemToEat)
+       //{
+       //    if (_inventory.Remove(ItemToEat) == false)
+       //    {
+       //        throw new Exception("Could not remove item from inventory.");
+       //    }
+       //}
+
         private readonly World _world;
         private Room _currentRoom;
         private readonly List<Item> _inventory;

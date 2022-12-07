@@ -20,14 +20,8 @@
       {
         "Name": "Nail",
         "LookDescription": "There is a Nail on the floor.",
-        "InventoryDescription": "A matel nail."
-      }
-    ],
-    "EdibleItems": [
-      {
-        "Name": "Nail",
-        "LookDescription": "There is a Nail on the floor.",
-        "InventoryDescription": "A matel nail."
+        "InventoryDescription": "A matel nail.",
+        //"Edible": "True;"
       }
     ],
     "Rooms": [

@@ -26,6 +26,7 @@
         takeH,
         Hunger,
         Stats,
+        Eat,
         Unknown
     }
 }

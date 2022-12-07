@@ -119,6 +119,17 @@ namespace Zork.Common
                     }
                     break;
 
+                case Commands.Eat:
+                    if (string.IsNullOrEmpty(subject))
+                    {
+                        Output.WriteLine("This command requires a subject.");
+                    }
+                    else
+                    {
+                        Eat(subject);
+                    }
+                    break;
+
                 case Commands.Inventory:
                     if (Player.Inventory.Count() == 0)
                     {
@@ -176,6 +187,11 @@ namespace Zork.Common
                 Output.WriteLine(item.LookDescription);
             }
         }
+
+      //private void Eat()
+      //{
+      //
+      //}
         private void Take(string itemName)
         {
             Item itemToTake = Player.CurrentRoom.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
@@ -204,6 +220,20 @@ namespace Zork.Common
                 Output.WriteLine("Dropped.");
             }
         }
+        private void Eat(string itemName)
+        {
+            Item itemToEat = Player.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
+            if (itemToEat == null)
+            {
+                Output.WriteLine("You can't see any such thing.");
+            }
+            else
+            {
+                Player.RemoveItemFromInventory(itemToEat);
+                Output.WriteLine("Eaten.");
+            }
+        }
+
         private static Commands ToCommand(string commandString) => Enum.TryParse(commandString, true, out Commands result) ? result : Commands.Unknown;
     }
 }
