@@ -5,23 +5,100 @@
       {
         "Name": "Mat",
         "LookDescription": "A rubber mat saying 'Welcome to Zork!' lies here.",
-        "InventoryDescription": "A welcome mat."
+        "InventoryDescription": "A welcome mat.",
+        "Edible": false
       },
       {
         "Name": "Mailbox",
         "LookDescription": "There is a small mailbox here.",
-        "InventoryDescription": "A small mailbox."
+        "InventoryDescription": "A small mailbox.",
+        "Edible": false
       },
       {
         "Name": "Leaves",
         "LookDescription": "There is a pile of leaves here.",
-        "InventoryDescription": "A pile of leaves."
+        "InventoryDescription": "A pile of leaves.",
+        "Edible": false
       },
       {
         "Name": "Nail",
         "LookDescription": "There is a Nail on the floor.",
-        "InventoryDescription": "A matel nail.",
-        //"Edible": "True;"
+        "InventoryDescription": "A metal nail.",
+        "Edible": true,
+        "BadEdible": true
+
+      },
+      {
+        "Name": "Spider",
+        "LookDescription": "There is a large spider on the floor... it looks poisonous.",
+        "InventoryDescription": "A Large Spider... looks poisonous .",
+        "Edible": true,
+        "BadEdible": true
+
+      },
+      {
+        "Name": "Pen",
+        "LookDescription": "There is a Pen on the floor.",
+        "InventoryDescription": "A ball point Pen.",
+        "Edible": true,
+        "BadEdible": true
+
+      },
+      {
+        "Name": "Coin",
+        "LookDescription": "There is a Coin on the floor.",
+        "InventoryDescription": "A Large Coin.",
+        "Edible": true,
+        "BadEdible": true
+
+      },
+      {
+        "Name": "Glass",
+        "LookDescription": "There is a pile of Glass on the floor.",
+        "InventoryDescription": "A pile of Glass.",
+        "Edible": true,
+        "BadEdible": true
+
+      },
+      {
+        "Name": "Apple",
+        "LookDescription": "There is a Apple on the floor.",
+        "InventoryDescription": "A Ripe Apple.",
+        "Edible": true,
+        "BadEdible": false
+
+      },
+      {
+        "Name": "Mango",
+        "LookDescription": "There is a Mango on the floor.",
+        "InventoryDescription": "A Large Mango.",
+        "Edible": true,
+        "BadEdible": false
+
+      },
+      {
+        "Name": "Taco",
+        "LookDescription": "There is a Taco on the floor.",
+        "InventoryDescription": "A Loaded Taco.",
+        "Edible": true,
+        "BadEdible": false
+
+      },
+      {
+        "Name": "Burger",
+        "LookDescription": "There is a Burger on the floor.",
+        "InventoryDescription": "A Burger.",
+        "Edible": true,
+        "BadEdible": false
+
+      },
+      {
+        "Name": "pear",
+        "LookDescription": "There is a pear on the floor.",
+        "InventoryDescription": "A Pear.",
+        "Edible": true,
+        "BadEdible": false
+
       }
     ],
     "Rooms": [
@@ -36,7 +113,8 @@
         "InventoryNames": [
           "Mat",
           "Mailbox",
-          "Nail"
+          "Nail",
+          "Apple"
         ]
       },
       {
@@ -46,7 +124,13 @@
           "North": "Forest 2",
           "East": "Behind House",
           "West": "West of House"
-        }
+        },
+        "InventoryNames": [
+          "Pen",
+          "Spider",
+          "Mango",
+          "Taco"
+        ]
       },
       {
         "Name": "South of House",
@@ -54,7 +138,13 @@
         "NeighborNames": {
           "East": "Behind House",
           "West": "West of House"
-        }
+        },
+        "InventoryNames": [
+          "Coin",
+          "Glass",
+          "Burger",
+          "pear"
+        ]
       },
       {
         "Name": "Behind House",

@@ -10,18 +10,15 @@
 
         public bool Edible;
 
-        public int HealthGain;
+        public bool BadEdible;
 
-        public int Hungergain;
-
-        public Item(string name, string lookDescription, string inventoryDescription, bool edible, int healthGain, int hungerGain)
+        public Item(string name, string lookDescription, string inventoryDescription, bool edible, bool goodEdible, bool badEdible)
         {
             Name = name;
             LookDescription = lookDescription;
             InventoryDescription = inventoryDescription;
             Edible = edible;
-            HealthGain = healthGain;
-            Hungergain = hungerGain;
+            BadEdible = badEdible;
         }
 
         public override string ToString() => Name;

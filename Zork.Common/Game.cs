@@ -38,8 +38,6 @@ namespace Zork.Common
             Player.PlayerHealth = 10;
             Player.PlayerHunger = 0;
             Output.WriteLine($"Current health is {Player.PlayerHealth} & Current Hunger is {Player.PlayerHunger}");
-
-           
         }
 
         public void OnInputReceived(object sender, string inputString)
@@ -83,19 +81,10 @@ namespace Zork.Common
                     Directions direction = (Directions)command;
                     Output.WriteLine(Player.Move(direction) ? $"You moved {direction}." : "The way is shut!");
                     Player.PlayerHunger += 1;
+                    HealthRestraints();
+                    HungerRestraints();
 
-                    if (Player.PlayerHunger >= 15)
-                    {
-                        IsRunning = false;
-                        Output.WriteLine("You Starved to death! Thank you for playing!");
-                    }
-
-                    if (Player.PlayerHunger == 5)
-                    {
-                        Output.WriteLine($"You have {Player.PlayerHunger} hunger, better find something to eat");
-                    }
-
-                        break;
+                    break;
 
                 case Commands.Take:
                     if (string.IsNullOrEmpty(subject))
@@ -188,10 +177,6 @@ namespace Zork.Common
             }
         }
 
-      //private void Eat()
-      //{
-      //
-      //}
         private void Take(string itemName)
         {
             Item itemToTake = Player.CurrentRoom.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
@@ -227,10 +212,65 @@ namespace Zork.Common
             {
                 Output.WriteLine("You can't see any such thing.");
             }
-            else
+
+            if (itemToEat.Edible == false)
+            {
+                Output.WriteLine("This Object isnt edible");
+            }
+
+            if (itemToEat.Edible == true && itemToEat.BadEdible == true)
             {
                 Player.RemoveItemFromInventory(itemToEat);
-                Output.WriteLine("Eaten.");
+                Output.WriteLine($"{itemToEat.Name} Eaten.");
+                Player.PlayerHunger += 2;
+                Player.PlayerHealth -= 3;
+                Output.WriteLine($"Current health is {Player.PlayerHealth} & Current Hunger is {Player.PlayerHunger}");
+            }
+           
+            if (itemToEat.Edible == true && itemToEat.BadEdible == false)
+            {
+                Player.RemoveItemFromInventory(itemToEat);
+                Output.WriteLine($"{itemToEat.Name} Eaten.");
+                Player.PlayerHunger -= 2;
+                Player.PlayerHealth += 2;
+                Output.WriteLine($"Current health is {Player.PlayerHealth} & Current Hunger is {Player.PlayerHunger}");
+            }
+      
+        }
+
+        public void HealthRestraints()
+        {
+            if (Player.PlayerHealth < 1)
+            {
+                IsRunning = false;
+                Output.WriteLine("You ran out of health!");
+            }
+            if (Player.PlayerHealth == 4)
+            {
+                Output.WriteLine($"You have {Player.PlayerHealth} Health, better find something to eat");
+            }
+
+            if (Player.PlayerHealth >= 10)
+            {
+                Player.PlayerHealth = 10;
+            }
+        }
+
+        public void HungerRestraints()
+        {
+            if (Player.PlayerHunger >= 15)
+            {
+                IsRunning = false;
+                Output.WriteLine("You Starved to death!");
+            }
+            if (Player.PlayerHunger == 10)
+            {
+                Output.WriteLine($"You have {Player.PlayerHunger} hunger, better find something to eat");
+            }
+
+            if(Player.PlayerHunger <= 1)
+            {
+                Player.PlayerHunger = 1;
             }
         }
 
